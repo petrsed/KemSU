@@ -44,6 +44,8 @@ int countNumberOfOccurrences(string needLine, string text) {
                 ++numberOfOccurrences;
                 checkingIndex = 0;
             }
+        } else {
+            checkingIndex = 0;
         }
     }
     
