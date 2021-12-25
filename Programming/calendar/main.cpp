@@ -2,7 +2,7 @@
 * Автор: Седельников П.В                                  *
 * Дата: 24.12.2021                                        *
 * Задача: 02 Каледарь в консоли                           *
-* Ссылка: https://onlinegdb.com/KSu5lPdeb                 *
+* Ссылка: https://onlinegdb.com/3-2Gt7S9n                 *
 **********************************************************/
 
 #include <iostream>
@@ -102,7 +102,6 @@ void drawMonth(int year, int monthIndex) {
 
 void drawCalendar(int year) {
     firstDayIndex = getFirstDayIndex(year);
-    cout << firstDayIndex;
     
     for (int monthIndex = 0; monthIndex < 12; ++monthIndex) {
         drawMonth(year, monthIndex);
