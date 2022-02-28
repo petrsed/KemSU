@@ -8,8 +8,10 @@
 using System;
 class Second {
     static void GetNewNumber(string Number) {
+		NeedSymbolIndex = 1;
+		
         for (int SymbolIndex = 0; SymbolIndex < Number.Length; ++SymbolIndex) {
-            if (SymbolIndex != 1) {
+            if (SymbolIndex != NeedSymbolIndex) {
                 Console.Write(Number[SymbolIndex]);
             }
         }
