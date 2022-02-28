@@ -10,7 +10,7 @@ class FirstTask {
     public static long Pow(long Number, int Degree) {
         long NewNumber = Number;
         
-        for (int DegreeIndex = 1; DegreeIndex < Degree; DegreeIndex++) {
+        for (int DegreeIndex = 1; DegreeIndex < Degree; ++DegreeIndex) {
             NewNumber *= Number;
         }
         

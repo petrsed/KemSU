@@ -8,7 +8,7 @@
 using System;
 class Second {
     static void GetNewNumber(string Number) {
-        for (int SymbolIndex = 0; SymbolIndex < Number.Length; SymbolIndex++) {
+        for (int SymbolIndex = 0; SymbolIndex < Number.Length; ++SymbolIndex) {
             if (SymbolIndex != 1) {
                 Console.Write(Number[SymbolIndex]);
             }
