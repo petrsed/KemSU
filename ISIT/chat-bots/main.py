@@ -31,8 +31,7 @@ def dialog_name(message):
 
 def dialog_age(message, name):
     age = message.text
-    msg = bot.send_message(message.chat.id, f"{name}, {age}: у меня есть несколько персональных подборок по ипотеке для вас! Обратитесь в банк!")
-    bot.register_next_step_handler(msg, dialog_age, name)
+    bot.send_message(message.chat.id, f"{name}, {age}: у меня есть несколько персональных подборок по ипотеке для вас! Обратитесь в банк!")
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
