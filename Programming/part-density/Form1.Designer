@@ -28,77 +28,77 @@ namespace Sedelnikov_0._1
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.NameLabel = new System.Windows.Forms.Label();
+            this.WorkNumberLabel = new System.Windows.Forms.Label();
+            this.VariantLabel = new System.Windows.Forms.Label();
+            this.TaskLabel = new System.Windows.Forms.Label();
+            this.aLabel = new System.Windows.Forms.Label();
             this.aInput = new System.Windows.Forms.TextBox();
             this.bInput = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.bLabel = new System.Windows.Forms.Label();
             this.hInput = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.hLabel = new System.Windows.Forms.Label();
             this.mInput = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.mLabel = new System.Windows.Forms.Label();
+            this.AnswerNameLabel = new System.Windows.Forms.Label();
             this.AnswerLabel = new System.Windows.Forms.Label();
             this.CalculateButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // label1
+            // NameLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(40, 39);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(297, 30);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "//Седельников П.В ПИ-211(2)";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.NameLabel.AutoSize = true;
+            this.NameLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.NameLabel.Location = new System.Drawing.Point(40, 39);
+            this.NameLabel.Name = "NameLabel";
+            this.NameLabel.Size = new System.Drawing.Size(297, 30);
+            this.NameLabel.TabIndex = 0;
+            this.NameLabel.Text = "//Седельников П.В ПИ-211(2)";
+            this.NameLabel.Click += new System.EventHandler(this.label1_Click);
             // 
-            // label2
+            // WorkNumberLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(40, 69);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(329, 30);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "//Лабораторная работа №0-1";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.WorkNumberLabel.AutoSize = true;
+            this.WorkNumberLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.WorkNumberLabel.Location = new System.Drawing.Point(40, 69);
+            this.WorkNumberLabel.Name = "WorkNumberLabel";
+            this.WorkNumberLabel.Size = new System.Drawing.Size(329, 30);
+            this.WorkNumberLabel.TabIndex = 1;
+            this.WorkNumberLabel.Text = "//Лабораторная работа №0-1";
+            this.WorkNumberLabel.Click += new System.EventHandler(this.label2_Click);
             // 
-            // label3
+            // VariantLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(40, 99);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(141, 30);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "//Вариант 8";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.VariantLabel.AutoSize = true;
+            this.VariantLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.VariantLabel.Location = new System.Drawing.Point(40, 99);
+            this.VariantLabel.Name = "VariantLabel";
+            this.VariantLabel.Size = new System.Drawing.Size(141, 30);
+            this.VariantLabel.TabIndex = 2;
+            this.VariantLabel.Text = "//Вариант 8";
+            this.VariantLabel.Click += new System.EventHandler(this.label3_Click);
             // 
-            // label4
+            // TaskLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(40, 129);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(605, 75);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Какую плотность должен иметь материал, из которого изготовлена \r\nдеталь в форме п" +
+            this.TaskLabel.AutoSize = true;
+            this.TaskLabel.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TaskLabel.Location = new System.Drawing.Point(40, 129);
+            this.TaskLabel.Name = "TaskLabel";
+            this.TaskLabel.Size = new System.Drawing.Size(605, 75);
+            this.TaskLabel.TabIndex = 3;
+            this.TaskLabel.Text = "Какую плотность должен иметь материал, из которого изготовлена \r\nдеталь в форме п" +
     "рямоугольного треугольника с катетами a и b, \r\nтолщиной h, если масса детали m?";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
+            this.TaskLabel.Click += new System.EventHandler(this.label4_Click);
             // 
-            // label5
+            // aLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(40, 219);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 30);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "a:";
+            this.aLabel.AutoSize = true;
+            this.aLabel.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.aLabel.Location = new System.Drawing.Point(40, 219);
+            this.aLabel.Name = "aLabel";
+            this.aLabel.Size = new System.Drawing.Size(32, 30);
+            this.aLabel.TabIndex = 4;
+            this.aLabel.Text = "a:";
             // 
             // aInput
             // 
@@ -116,16 +116,16 @@ namespace Sedelnikov_0._1
             this.bInput.TabIndex = 7;
             this.bInput.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
-            // label6
+            // bLabel
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(199, 221);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(33, 30);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "b:";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
+            this.bLabel.AutoSize = true;
+            this.bLabel.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.bLabel.Location = new System.Drawing.Point(199, 221);
+            this.bLabel.Name = "bLabel";
+            this.bLabel.Size = new System.Drawing.Size(33, 30);
+            this.bLabel.TabIndex = 6;
+            this.bLabel.Text = "b:";
+            this.bLabel.Click += new System.EventHandler(this.label6_Click);
             // 
             // hInput
             // 
@@ -135,16 +135,16 @@ namespace Sedelnikov_0._1
             this.hInput.TabIndex = 9;
             this.hInput.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
-            // label7
+            // hLabel
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label7.Location = new System.Drawing.Point(357, 223);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(33, 30);
-            this.label7.TabIndex = 8;
-            this.label7.Text = "h:";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
+            this.hLabel.AutoSize = true;
+            this.hLabel.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.hLabel.Location = new System.Drawing.Point(357, 223);
+            this.hLabel.Name = "hLabel";
+            this.hLabel.Size = new System.Drawing.Size(33, 30);
+            this.hLabel.TabIndex = 8;
+            this.hLabel.Text = "h:";
+            this.hLabel.Click += new System.EventHandler(this.label7_Click);
             // 
             // mInput
             // 
@@ -154,25 +154,25 @@ namespace Sedelnikov_0._1
             this.mInput.TabIndex = 11;
             this.mInput.TextChanged += new System.EventHandler(this.mInput_TextChanged);
             // 
-            // label8
+            // mLabel
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label8.Location = new System.Drawing.Point(519, 225);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(40, 30);
-            this.label8.TabIndex = 10;
-            this.label8.Text = "m:";
+            this.mLabel.AutoSize = true;
+            this.mLabel.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.mLabel.Location = new System.Drawing.Point(519, 225);
+            this.mLabel.Name = "mLabel";
+            this.mLabel.Size = new System.Drawing.Size(40, 30);
+            this.mLabel.TabIndex = 10;
+            this.mLabel.Text = "m:";
             // 
-            // label9
+            // AnswerNameLabel
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label9.Location = new System.Drawing.Point(40, 269);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(81, 30);
-            this.label9.TabIndex = 12;
-            this.label9.Text = "Ответ:";
+            this.AnswerNameLabel.AutoSize = true;
+            this.AnswerNameLabel.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.AnswerNameLabel.Location = new System.Drawing.Point(40, 269);
+            this.AnswerNameLabel.Name = "AnswerNameLabel";
+            this.AnswerNameLabel.Size = new System.Drawing.Size(81, 30);
+            this.AnswerNameLabel.TabIndex = 12;
+            this.AnswerNameLabel.Text = "Ответ:";
             // 
             // AnswerLabel
             // 
@@ -201,19 +201,19 @@ namespace Sedelnikov_0._1
             this.ClientSize = new System.Drawing.Size(704, 325);
             this.Controls.Add(this.CalculateButton);
             this.Controls.Add(this.AnswerLabel);
-            this.Controls.Add(this.label9);
+            this.Controls.Add(this.AnswerNameLabel);
             this.Controls.Add(this.mInput);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.mLabel);
             this.Controls.Add(this.hInput);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.hLabel);
             this.Controls.Add(this.bInput);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.bLabel);
             this.Controls.Add(this.aInput);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.aLabel);
+            this.Controls.Add(this.TaskLabel);
+            this.Controls.Add(this.VariantLabel);
+            this.Controls.Add(this.WorkNumberLabel);
+            this.Controls.Add(this.NameLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.Text = "Лабораторная работа №0-1";
@@ -225,19 +225,19 @@ namespace Sedelnikov_0._1
 
         #endregion
 
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
-        private Label label5;
+        private Label NameLabel;
+        private Label WorkNumberLabel;
+        private Label VariantLabel;
+        private Label TaskLabel;
+        private Label aLabel;
         private TextBox aInput;
         private TextBox bInput;
-        private Label label6;
+        private Label bLabel;
         private TextBox hInput;
-        private Label label7;
+        private Label hLabel;
         private TextBox mInput;
-        private Label label8;
-        private Label label9;
+        private Label mLabel;
+        private Label AnswerNameLabel;
         private Label AnswerLabel;
         private Button CalculateButton;
     }
