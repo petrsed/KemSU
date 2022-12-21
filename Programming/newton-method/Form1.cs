@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +7,7 @@ using System.Linq;
 using System.CodeDom.Compiler;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,25 +15,47 @@ namespace Sedelnikov_2
 {
     public partial class Form1 : Form
     {
+        private int Step = 0;
+        private List<List<double>> Points = new List<List<double>>();
+        private List<List<List<double>>> Steps = new List<List<List<double>>>();
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void CalculateButton_Click(object sender, EventArgs e)
+        private async void StartButton_Click(object sender, EventArgs e)
+        {
+            string FunctionLine = FunctionTextBox.Text;
+            string StartLine = StartTextBox.Text;
+            string EndLine = EndTextBox.Text;
+            string AccuracyLine = AccuracyTextBox.Text;
+            //string FunctionLine = "(e)log(x)";
+            //string StartLine = "0";
+            //string EndLine = "4";
+            //string AccuracyLine = "2";
+
+            Step = 0;
+            StepBack.Enabled = false;
+            StepNext.Enabled = true;
+
+            GetMinimumPointTask(FunctionLine, StartLine, EndLine, AccuracyLine);
+        }
+
+        void ChartRefresh()
         {
             Chart.Series[0].Points.Clear();
             Chart.Series[1].Points.Clear();
+            Chart.Series[2].Points.Clear();
+        }
 
-            string Function = FunctionTextBox.Text.Replace("x", "(x)");
-            bool StartStatus = CheckDouble(StartTextBox.Text, "a");
-            bool EndStatus = CheckDouble(EndTextBox.Text, "b");
-            bool AccuracyStatus = CheckInt(AccuracyTextBox.Text, "e");
+        void GetMinimumPointTask(string FunctionLine, string StartLine, string EndLine, string AccuracyLine)
+        {
+            string Function = FunctionLine.Replace("x", "(x)");
+            bool StartStatus = CheckDouble(StartLine, "a");
+            bool EndStatus = CheckDouble(EndLine, "b");
+            bool AccuracyStatus = CheckInt(AccuracyLine, "e");
             bool FormulaStatus = true;
-            //string Function = "cos(x)".Replace("x", "(x)");
-            //bool StartStatus = true;
-            //bool EndStatus = true;
-            //bool AccuracyStatus = true;
 
             MathParser Parser = new MathParser();
             try
@@ -42,49 +65,53 @@ namespace Sedelnikov_2
             catch
             {
                 MessageBox.Show($"Ошибка в формуле!");
+     
                 FormulaStatus = false;
             }
 
 
             if (StartStatus && EndStatus && AccuracyStatus && FormulaStatus)
             {
-                double Start = Double.Parse(StartTextBox.Text);
-                double End = Double.Parse(EndTextBox.Text);
-                int Accuracy = Int32.Parse(AccuracyTextBox.Text);
-                //double Start = 0;
-                //double End = 1;
-                //int Accuracy = 5;
+                double Start = Double.Parse(StartLine);
+                double End = Double.Parse(EndLine);
+                int Accuracy = Int32.Parse(AccuracyLine);
                 double AmountPoints = 1000;
 
                 if (End > Start)
                 {
                     try
                     {
-                        List<List<double>> Points = GetPoints(Parser, Function, Start, End, AmountPoints);
+                        Points = GetPoints(Parser, Function, Start, End, AmountPoints);
+                        List<double> MinumumPoint = GetMinimumPoint(Points, Parser, Function, Start, End, Accuracy);
+                        Steps = GetSteps(Points, Parser, Function, Start, End, Accuracy);
 
-                        List<double> MinumumPoint = GetMinimumPoint(Parser, Function, Start, End, Accuracy);
-                        double Step = (End - Start) / AmountPoints;
-                        List<List<double>> AllMinimumPoints = GetMinimumPoints(Points, MinumumPoint, Step);
+                        List<List<double>> BorderPoints = new List<List<double>>();
+                        List<double> Point = GetPoint(Parser, Function, Start);
+                        BorderPoints.Add(Point);
+                        Point = GetPoint(Parser, Function, End);
+                        BorderPoints.Add(Point);
+                        DrawChart(Points, BorderPoints);
 
-                        DrawChart(Points, AllMinimumPoints);
-
-                        if (MinumumPoint[1] is double.NaN)
+                        if (MinumumPoint[0] is double.NaN && MinumumPoint[1] is double.NaN) {
+                                ChartRefresh();
+                        }
+                        else if (MinumumPoint[1] is double.NaN)
                         {
-                            AnswerLabel.Text = $"Локальный минимум: отсутствует";
+                            AnswerLabel.Text = $"Минимум: отсутствует";
                         }
                         else
                         {
-                            AnswerLabel.Text = $"Локальный минимум: ({MinumumPoint[0]}, {TruncateDecimal(MinumumPoint[1], Accuracy)})";
+                                AnswerLabel.Text = $"Минимум: ({MinumumPoint[0]}, {TruncateDecimal(MinumumPoint[1], Accuracy)})";
                         }
                     }
                     catch
                     {
-                        MessageBox.Show($"Слишком сложная формула!");
+                            MessageBox.Show($"Слишком сложная формула!");                 
                     }
                 }
                 else
                 {
-                    MessageBox.Show($"Точка конца не может быть левее точки старта!");
+                        MessageBox.Show($"Точка конца не может быть левее точки старта!");
                 }
             }
         }
@@ -96,8 +123,10 @@ namespace Sedelnikov_2
             return tmp / step;
         }
 
-        void DrawChart(List<List<double>> Points, List<List<double>> MinimumPoints)
+        void DrawChart(List<List<double>> Points, List<List<double>> BorderPoints)
         {
+            ChartRefresh();
+
             foreach (List<double> Point in Points)
             {
                 if (Point[0] > 99999999 || Point[0] < -99999999 || Point[1] > 99999999 || Point[1] < -99999999 || Point[1] is double.NaN)
@@ -109,13 +138,21 @@ namespace Sedelnikov_2
                     Chart.Series[0].Points.AddXY(Point[0], Point[1]);
                 }
             }
-            foreach (List<double> MinimumPoint in MinimumPoints)
+
+            foreach (List<double> BorderPoint in BorderPoints)
             {
-                Chart.Series[1].Points.AddXY(MinimumPoint[0] + 0.001, MinimumPoint[1]);
+                if (BorderPoint[0] > 99999999 || BorderPoint[0] < -99999999 || BorderPoint[1] > 99999999 || BorderPoint[1] < -99999999 || BorderPoint[1] is double.NaN)
+                {
+                    continue;
+                }
+                else
+                {
+                    Chart.Series[2].Points.AddXY(BorderPoint[0], BorderPoint[1]);
+                }
             }
 
             Chart.Series[0].Points.ResumeUpdates();
-            Chart.Series[1].Points.ResumeUpdates();
+            Chart.Series[2].Points.ResumeUpdates();
         }
 
         void Chart_Click()
@@ -157,35 +194,78 @@ namespace Sedelnikov_2
             return MinimumPoints;
         }
 
-        List<double> GetMinimumPoint(MathParser Parser, string Function, double Start, double End, int Accuracy)
+        List<List<List<double>>> GetSteps(List<List<double>> Points, MathParser Parser, string Function, double Start, double End, int Accuracy)
         {
+            List<List<List<double>>> Steps = new List<List<List<double>>>();
+            List<List<double>> BorderPoints = new List<List<double>>();
+            List<List<double>> AllMinimumPoints = new List<List<double>>();
             double Precision = 1 / Math.Pow(10, Accuracy);
-            //Precision = 0.001;
-            double X1 = (3 - Math.Sqrt(5)) / 2 * (End - Start) + Start;
-            double X2 = (Math.Sqrt(5) - 1) / 2 * (End - Start) + Start;
-            int count = 0;
+            double Delta = (3 - Math.Sqrt(5)) / 2;
+            double X1 = Start + Delta * (End - Start), X2 = End - Delta * (End - Start);
 
-            while ((End - Start) / 2 > Precision)
+            for (int i = 0; End - Start > Precision; i++)
             {
-                count++;
-                double Y1 = GetPoint(Parser, Function, X1)[1];
-                double Y2 = GetPoint(Parser, Function, X2)[1];
+                List<double> FirstPoint = GetPoint(Parser, Function, X1);
+                double Y1 = FirstPoint[1];
+
+                List<double> SecondPoint = GetPoint(Parser, Function, X2);
+                double Y2 = SecondPoint[1];
 
                 if (Y1 <= Y2)
                 {
                     End = X2;
                     X2 = X1;
-                    X1 = (3 - Math.Sqrt(5)) / 2 * (End - Start) + Start;
+                    X1 = Start + End - X2;
                 }
                 else
                 {
                     Start = X1;
                     X1 = X2;
-                    X2 = (Math.Sqrt(5) - 1) / 2 * (End - Start) + Start;
+                    X2 = Start + End - X1;
                 }
+
+                BorderPoints = new List<List<double>>();
+                BorderPoints.Add(FirstPoint);
+                BorderPoints.Add(SecondPoint);
+                Steps.Add(BorderPoints); 
             }
 
-            Console.WriteLine(count);
+            return Steps;
+        }
+
+        List<double> GetMinimumPoint(List<List<double>> Points, MathParser Parser, string Function, double Start, double End, int Accuracy)
+        {
+            List<List<double>> BorderPoints = new List<List<double>>();
+            List<List<double>> AllMinimumPoints = new List<List<double>>();
+            double Precision = 1 / Math.Pow(10, Accuracy);
+            double Delta = (3 - Math.Sqrt(5)) / 2;
+            double X1 = Start + Delta * (End - Start), X2 = End - Delta * (End - Start);
+
+            for (int i = 0; End - Start > Precision; i++)
+            {
+                List<double> FirstPoint = GetPoint(Parser, Function, X1);
+                double Y1 = FirstPoint[1];
+
+                List<double> SecondPoint = GetPoint(Parser, Function, X2);
+                double Y2 = SecondPoint[1];
+
+                if (Y1 <= Y2)
+                {
+                    End = X2;
+                    X2 = X1;
+                    X1 = Start + End - X2;
+                }
+                else
+                {
+                    Start = X1;
+                    X1 = X2;
+                    X2 = Start + End - X1;
+                }
+
+                BorderPoints = new List<List<double>>();
+                BorderPoints.Add(FirstPoint);
+                BorderPoints.Add(SecondPoint);
+            }
             double X = (Start + End) / 2;
             double Y = GetPoint(Parser, Function, X)[1];
         
@@ -273,6 +353,65 @@ namespace Sedelnikov_2
         private void Chart_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            Step = 0;
+            ChartRefresh();
+            AnswerLabel.Text = "";
+            FunctionTextBox.Text = "";
+            StartTextBox.Text = "";
+            EndTextBox.Text = "";
+            AccuracyTextBox.Text = "";
+            StepBack.Enabled = false;
+            StepNext.Enabled = false;
+        }
+
+        private void StepNext_Click(object sender, EventArgs e)
+        {
+            List<List<double>> BorderPoints = Steps[Step];
+            Invoke(new Action(() => DrawChart(Points, BorderPoints)));
+
+            if (Steps.Count > Step + 1)
+            {
+                Step += 1;
+                StepNext.Enabled = true;
+            } else
+            {
+                StepNext.Enabled = false;
+            }
+
+            if (Step != 0)
+            {
+                StepBack.Enabled = true;
+            }
+        }
+
+        private void StepBack_Click(object sender, EventArgs e)
+        {
+            List<List<double>> BorderPoints = Steps[Step];
+            Invoke(new Action(() => DrawChart(Points, BorderPoints)));
+
+            if (Step != 0)
+            {
+                Step -= 1;
+                StepBack.Enabled = true;
+            }
+            else
+            {
+                StepNext.Enabled = true;
+            }
         }
     }
 }
