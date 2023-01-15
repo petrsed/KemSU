@@ -26,9 +26,7 @@ namespace Sedelnikov_6
         List<List<int>> MatrixX;
         public static Logic LogicObj;
 
-        static string GOOGLE_SHEEETSSPREADSHEET_ID = "10RCo1GKEJbv7xBoRgSc1oae7pE8uLMv3LiW3GGm_dZU";
-        string GOOGLE_SHEEETS_API_KEY = "66d9c24b4148e2849e0fd747060c0277b3262bda";
-        string GOOGLE_SHEEETSSPREADSHEET_ID2 = "AIzaSyB82nD5whVNL7kz_vZOGsUGsrPxU0fWCkg";
+        static string GOOGLE_SHEEETSSPREADSHEET_ID = "xxxxxxxxxxxxxxx";
         static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
         static readonly string ApplicationName = "Laba";
         static SheetsService service;
