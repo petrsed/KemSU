@@ -64,6 +64,59 @@ namespace Sedelnikov_6
             Dimension = NewDimension;
         }
 
+        public List<List<int>> ConvertMatrixSize(List<List<int>> Matrix, int Dimension)
+        {
+            List<List<int>> NewMatrix = new List<List<int>>();
+
+            for (int RowIndex = 0; RowIndex < Dimension; RowIndex++)
+            {
+                List<int> MatrixLine = new List<int>();
+
+                for (int ColumnIndex = 0; ColumnIndex < Dimension; ColumnIndex++)
+                {
+                    int Number;
+                    try
+                    {
+                        Number = Matrix[RowIndex][ColumnIndex];
+                    }
+                    catch
+                    {
+                        Number = 0;
+                    }
+
+                    MatrixLine.Add(Number);
+                }
+                NewMatrix.Add(MatrixLine);
+            }
+
+            return NewMatrix;
+        }
+
+        public List<List<int>> ConvertVectorSize(List<List<int>> Matrix, int Dimension)
+        {
+            List<List<int>> NewMatrix = new List<List<int>>();
+
+            for (int RowIndex = 0; RowIndex < Dimension; RowIndex++)
+            {
+                int Number;
+                List<int> MatrixLine = new List<int>();
+
+                try
+                {
+                    Number = Matrix[RowIndex][0];
+                }
+                catch
+                {
+                    Number = 0;
+                }
+
+                MatrixLine.Add(Number);
+                NewMatrix.Add(MatrixLine);
+            }
+
+            return NewMatrix;
+        }
+
         public List<List<int>> GetZeroMatrix(int Dimension)
         {
             List<List<int>> Matrix = new List<List<int>>();
@@ -164,19 +217,30 @@ namespace Sedelnikov_6
             return Matrix;
         }
 
-        public List<List<int>> RunThroughMethod()
+
+        List<List<double>> ConvertIntToDouble(List<List<int>> IntList)
         {
-            List<List<int>> AnswerMatrix = GetZeroVector(Dimension);
+            List<List<double>> DoubleList = new List<List<double>>();
 
+            for (int RowIndex = 0; RowIndex < IntList.Count; RowIndex++)
+            {
+                List<double> DoubleLine = new List<double>();
 
+                for (int ColumnIndex = 0; ColumnIndex < IntList[RowIndex].Count; ColumnIndex++)
+                {
+                    DoubleLine.Add(IntList[RowIndex][ColumnIndex]);
+                }
 
-            return AnswerMatrix;
+                DoubleList.Add(DoubleLine); 
+            }
+
+            return DoubleList;
         }
 
         public List<List<double>> GaussMethod()
         {
-            List<List<int>> MatrixAObj = new List<List<int>>(MatrixA);
-            List<List<int>> MatrixBObj = new List<List<int>>(MatrixB);
+            List<List<double>> MatrixAObj = new List<List<double>>(ConvertIntToDouble(MatrixA));
+            List<List<double>> MatrixBObj = new List<List<double>>(ConvertIntToDouble(MatrixB));
             List<List<double>> AnswerMatrix = GetZeroDoubleVector(Dimension);
 
             for (int FirstIndex = 0; FirstIndex < Dimension - 1; FirstIndex++)

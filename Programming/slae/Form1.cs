@@ -8,7 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Sheets.v4;
+using Popcron.Sheets;
+using System.IO;
+using Google.Apis.Sheets.v4.Data;
+using System.Threading;
 
 namespace Sedelnikov_6
 {
@@ -18,10 +24,31 @@ namespace Sedelnikov_6
         List<List<int>> MatrixA;
         List<List<int>> MatrixB;
         List<List<int>> MatrixX;
-        public Logic LogicObj;
+        public static Logic LogicObj;
+
+        static string GOOGLE_SHEEETSSPREADSHEET_ID = "10RCo1GKEJbv7xBoRgSc1oae7pE8uLMv3LiW3GGm_dZU";
+        string GOOGLE_SHEEETS_API_KEY = "66d9c24b4148e2849e0fd747060c0277b3262bda";
+        string GOOGLE_SHEEETSSPREADSHEET_ID2 = "AIzaSyB82nD5whVNL7kz_vZOGsUGsrPxU0fWCkg";
+        static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
+        static readonly string ApplicationName = "Laba";
+        static SheetsService service;
+
 
         public Form1()
         {
+            GoogleCredential credential;
+            using (var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
+            {
+                credential = GoogleCredential.FromStream(stream)
+                    .CreateScoped(Scopes);
+            }
+
+            service = new SheetsService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = ApplicationName,
+            });
+
             LogicObj = new Logic();
             MatrixA = LogicObj.GetZeroMatrix(Dimension);
             MatrixB = LogicObj.GetZeroVector(Dimension);
@@ -184,26 +211,228 @@ namespace Sedelnikov_6
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Stopwatch Timer = new Stopwatch();
+            try
+            {
+                Stopwatch Timer = new Stopwatch();
 
-            Timer.Start();
-            List<List<double>> GaussMatrix = LogicObj.GaussMethod();
-            var GaussForm = new Form4(LogicObj, GaussMatrix, "Метод Гаусса");
-            GaussForm.Show();
-            Timer.Stop();
-            int TimerMilliSeconds = Convert.ToInt32(Timer.ElapsedMilliseconds);
-            GaussAnswer.Text = $"{TimerMilliSeconds} мс.";
+                Timer.Start();
+                List<List<double>> GaussMatrix = LogicObj.GaussMethod();
+                var GaussForm = new Form4(LogicObj, GaussMatrix, "Метод Гаусса");
+                GaussForm.Show();
+                Timer.Stop();
+                int TimerMilliSeconds = Convert.ToInt32(Timer.ElapsedMilliseconds);
+                GaussAnswer.Text = $"{TimerMilliSeconds} мс.";
 
-
-
-            //List<List<double>> RunThroughMatrix = LogicObj.RunThroughMethod();
-            //var RunThroughForm = new Form4(LogicObj, RunThroughMatrix, "Метод прогонки");
-            //RunThroughForm.Show();
+                try
+                {
+                    if (!Double.IsNaN(GaussMatrix[0][0]))
+                    {
+                        ClearTable("MatrixX");
+                        SyncVectorX(GaussMatrix);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка синхронизации!");
+                }
+            } catch
+            {
+                MessageBox.Show("Матрица не имеет решения!");
+            }
         }
 
         private void ExactLine_Click(object sender, EventArgs e)
         {
 
+        }
+
+        void SyncMatrix()
+        {
+            try
+            {
+                SyncMatrixA();
+                SyncVectorB();
+                MessageBox.Show("Матрицы синхронизированы!");
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка синхронизации!");
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Thread SyncThread = new Thread(() => SyncMatrix());
+            SyncThread.Start();
+        }
+
+        static void SyncMatrixA() //импорт данных
+        {
+            int Dimension = LogicObj.GetDimension();
+            List<List<int>> MatrixA = new List<List<int>>();
+            var range = $"MatrixA!A:C";
+            SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(GOOGLE_SHEEETSSPREADSHEET_ID, range);
+
+            var response = request.Execute();
+            IList<IList<object>> values = response.Values;
+            if (values != null && values.Count > 0)
+            {
+                foreach (var row in values)
+                {
+                    List<int> MatrixLine = new List<int>();
+                    foreach (var num in row)
+                    {
+                        int Number;
+                        try
+                        {
+                            Number = Convert.ToInt32(num);
+                        } catch
+                        {
+                            Number = 0;
+                        }
+
+                        MatrixLine.Add(Number);
+                    }
+                    MatrixA.Add(MatrixLine);
+                }
+            }
+            else
+            {
+                MatrixA = LogicObj.GetZeroMatrix(LogicObj.GetDimension());
+            }
+
+            MatrixA = LogicObj.ConvertMatrixSize(MatrixA, Dimension);
+            LogicObj.SetMatrixA(MatrixA);
+        }
+
+        static void SyncVectorX(List<List<double>> Matrix) //экспорт
+        {
+            var range = $"MatrixX!A:A";
+            var valueRange = new ValueRange();
+
+
+            valueRange.Values = new List<IList<object>>();
+
+            foreach (var row in Matrix)
+            {
+                var oblist = new List<object>();
+                oblist.Add(row[0].ToString());
+                valueRange.Values.Add(oblist);
+            }
+
+            var appendRequest = service.Spreadsheets.Values.Append(valueRange, GOOGLE_SHEEETSSPREADSHEET_ID, range);
+            appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
+            var appendReponse = appendRequest.Execute();
+        }
+
+        static void ExportMatrixA(List<List<int>> Matrix) 
+        {
+            var range = $"MatrixA!A:C";
+            var valueRange = new ValueRange();
+
+
+            valueRange.Values = new List<IList<object>>();
+
+            foreach (var row in Matrix)
+            {
+                var oblist = new List<object>();
+
+                foreach (var col in row)
+                {
+                    oblist.Add(col.ToString());
+                }
+
+                valueRange.Values.Add(oblist);
+            }
+
+            var appendRequest = service.Spreadsheets.Values.Append(valueRange, GOOGLE_SHEEETSSPREADSHEET_ID, range);
+            appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
+            var appendReponse = appendRequest.Execute();
+        }
+
+        static void ExportVectorB(List<List<int>> Matrix)
+        {
+            var range = $"MatrixB!A:A";
+            var valueRange = new ValueRange();
+
+
+            valueRange.Values = new List<IList<object>>();
+
+            foreach (var row in Matrix)
+            {
+                var oblist = new List<object>();
+
+                foreach (var col in row)
+                {
+                    oblist.Add(col.ToString());
+                }
+
+                valueRange.Values.Add(oblist);
+            }
+
+            var appendRequest = service.Spreadsheets.Values.Append(valueRange, GOOGLE_SHEEETSSPREADSHEET_ID, range);
+            appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
+            var appendReponse = appendRequest.Execute();
+        }
+
+        static void ClearTable(string SheetName)
+        {
+            var range = $"{SheetName}!A:F";
+            var requestBody = new ClearValuesRequest();
+
+            var deleteRequest = service.Spreadsheets.Values.Clear(requestBody, GOOGLE_SHEEETSSPREADSHEET_ID, range);
+            var deleteReponse = deleteRequest.Execute();
+        }
+
+        static void SyncVectorB()
+        {
+            int Dimension = LogicObj.GetDimension();
+            List<List<int>> MatrixB = new List<List<int>>();
+            var range = $"MatrixB!A:A";
+            SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(GOOGLE_SHEEETSSPREADSHEET_ID, range);
+
+            var response = request.Execute();
+            IList<IList<object>> values = response.Values;
+            if (values != null && values.Count > 0)
+            {
+                foreach (var row in values)
+                {
+                    List<int> MatrixLine = new List<int>();
+                    foreach (var num in row)
+                    {
+                        int Number;
+                        try
+                        {
+                            Number = Convert.ToInt32(num);
+                        }
+                        catch
+                        {
+                            Number = 0;
+                        }
+
+                        MatrixLine.Add(Number);
+                    }
+                    MatrixB.Add(MatrixLine);
+                }
+            }
+            else
+            {
+                MatrixB = LogicObj.GetZeroMatrix(LogicObj.GetDimension());
+            }
+
+            MatrixB = LogicObj.ConvertVectorSize(MatrixB, Dimension);
+            LogicObj.SetMatrixB(MatrixB);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ClearTable("MatrixA");
+            List<List<int>> MatrixA = LogicObj.GetMatrixA();
+            ExportMatrixA(MatrixA);
+
+            ClearTable("MatrixB");
+            List<List<int>> MatrixB = LogicObj.GetMatrixB();
+            ExportVectorB(MatrixB);
         }
     }
 }

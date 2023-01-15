@@ -47,6 +47,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.GaussAnswer = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -163,7 +165,7 @@
             // 
             this.ExactLine.AutoSize = true;
             this.ExactLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ExactLine.Location = new System.Drawing.Point(478, 80);
+            this.ExactLine.Location = new System.Drawing.Point(478, 53);
             this.ExactLine.Name = "ExactLine";
             this.ExactLine.Size = new System.Drawing.Size(113, 16);
             this.ExactLine.TabIndex = 31;
@@ -175,7 +177,7 @@
             // 
             this.ValuesLine.AutoSize = true;
             this.ValuesLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ValuesLine.Location = new System.Drawing.Point(477, 47);
+            this.ValuesLine.Location = new System.Drawing.Point(477, 20);
             this.ValuesLine.Name = "ValuesLine";
             this.ValuesLine.Size = new System.Drawing.Size(222, 20);
             this.ValuesLine.TabIndex = 30;
@@ -185,73 +187,101 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(478, 100);
+            this.label5.Location = new System.Drawing.Point(478, 73);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(204, 16);
             this.label5.TabIndex = 32;
             this.label5.Text = "Метод квадратного корня:";
             this.label5.UseMnemonic = false;
+            this.label5.Visible = false;
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(478, 120);
+            this.label7.Location = new System.Drawing.Point(478, 93);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(131, 16);
             this.label7.TabIndex = 33;
             this.label7.Text = "Метод прогонки:";
             this.label7.UseMnemonic = false;
+            this.label7.Visible = false;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(478, 140);
+            this.label8.Location = new System.Drawing.Point(478, 113);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(198, 16);
             this.label8.TabIndex = 34;
             this.label8.Text = "Метод простой итерации:";
             this.label8.UseMnemonic = false;
+            this.label8.Visible = false;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(478, 160);
+            this.label9.Location = new System.Drawing.Point(478, 133);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(231, 16);
             this.label9.TabIndex = 35;
             this.label9.Text = "Метод наискорейшего спуска:";
             this.label9.UseMnemonic = false;
+            this.label9.Visible = false;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(478, 180);
+            this.label10.Location = new System.Drawing.Point(478, 153);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(250, 16);
             this.label10.TabIndex = 36;
             this.label10.Text = "Метод споряженных градиентов:";
             this.label10.UseMnemonic = false;
+            this.label10.Visible = false;
             // 
             // GaussAnswer
             // 
             this.GaussAnswer.AutoSize = true;
             this.GaussAnswer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.GaussAnswer.Location = new System.Drawing.Point(586, 80);
+            this.GaussAnswer.Location = new System.Drawing.Point(586, 53);
             this.GaussAnswer.Name = "GaussAnswer";
             this.GaussAnswer.Size = new System.Drawing.Size(0, 16);
             this.GaussAnswer.TabIndex = 37;
             this.GaussAnswer.UseMnemonic = false;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(414, 197);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(155, 31);
+            this.button1.TabIndex = 38;
+            this.button1.Text = "Импорт данных с G.Sheets";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(575, 197);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(155, 31);
+            this.button5.TabIndex = 39;
+            this.button5.Text = "Экспорт данных в G.Sheets";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Visible = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(902, 240);
+            this.ClientSize = new System.Drawing.Size(770, 240);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.GaussAnswer);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
@@ -300,6 +330,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label GaussAnswer;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button5;
     }
 }
 
